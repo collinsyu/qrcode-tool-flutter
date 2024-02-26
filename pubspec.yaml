@@ -21,6 +21,7 @@ version: 1.0.0+1
 environment:
   sdk: '>=3.3.0 <4.0.0'
 
+
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -35,6 +36,16 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+  mobile_scanner: ^4.0.0
+  image_picker: ^1.0.4
+
+  permission_handler: ^11.3.0
+  sqflite: ^2.3.2
+  path: ^1.9.0
+  intl: ^0.19.0
+  pretty_qr_code: ^3.2.1
+  image_gallery_saver: ^2.0.3
+
 
 dev_dependencies:
   flutter_test:
@@ -59,9 +70,33 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - images/scan.png
+    - images/scanmainbutton.png
+    - images/scanmainbutton1.png
+    - images/icon-qrcode.png
+    - images/icon-setting.png
+    - images/icon-setting-inner.png
+    - images/icon-history.png
+    - images/icon-flash.png
+    - images/icon-images.png
+    - images/icon-camera-turn.png
+    - images/icon-scantype-text.png
+    - images/icon-scantype-url.png
+    - images/icon-scantype-wifi.png
+    - images/icon-scantype-event.png
+    - images/icon-scantype-email.png
+    - images/list-type-text.png
+    - images/icon-delete.png
+    - images/icon-back.png
+    - images/icon-msgtype-text.png
+    - images/icon-msgtype-url.png
+    - images/icon-msgtype-email.png
+    - images/icon-msgtype-wifi.png
+    - images/icon-reward.png
+    - images/icon-setting-alert.png
+    - images/icon-setting-share.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
