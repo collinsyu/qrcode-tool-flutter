@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/widgets.dart';
+import 'package:vibration/vibration.dart';
+import '../core/setting.dart';
 import 'components/headbar.dart';
 
 class SettingPage extends StatefulWidget {
@@ -11,9 +13,13 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> with TickerProviderStateMixin {
+  bool isVibrate = true;
+
   @override
   void initState() {
     super.initState();
+
+    isVibrate = SettingConfig.ISVIBRATE;
   }
 
   @override
@@ -42,6 +48,94 @@ class _SettingPageState extends State<SettingPage> with TickerProviderStateMixin
 
                   SizedBox(height: 20.0,),
 
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Settings",style: TextStyle(
+                        color: Color(0xffFDB623),
+                        fontSize: 26
+                    ),),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 8.0,horizontal: 4.0),
+                    decoration: BoxDecoration(
+                      color: Color(0xffFDB623),
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xff333333),
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                      padding: EdgeInsets.all(16.0),
+                      margin: EdgeInsets.fromLTRB(0.0,0.0,0.0,2.0),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'images/icon-vibrate.png',
+                            width: 21.0, // 设置图片的宽度
+                            height: 21.0, // 设置图片的高度
+                            fit: BoxFit.fitHeight, // 图片填充方式
+                          ),
+                          SizedBox(width: 16.0,),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Vibrate",style: TextStyle(color: Color(0xffE2E2E2),fontSize: 16),),
+                                    Text("Vibration when scan is done.",style: TextStyle(
+                                        color: Color(0xffC3C7C7),
+                                        fontSize: 14
+                                    ),)
+                                  ],
+                                ),
+
+
+
+                                Transform.scale(
+                                  scale: .6,
+                                  child: Switch(
+                                      value: isVibrate,
+                                      activeTrackColor: Color(0xaaFDB623),
+                                      activeColor: Color(0xffFDB623),
+
+                                      inactiveTrackColor: Color(0x33FFFFFF),
+                                      inactiveThumbColor: Color(0xff979797),
+                                      materialTapTargetSize: MaterialTapTargetSize.padded,
+                                      trackOutlineWidth: MaterialStateProperty.resolveWith<double?>((Set<MaterialState> states) {
+
+                                         return 0; // Use the default width.
+                                       }),
+
+                                      onChanged: (bool _isvibrate) async {
+                                        if(_isvibrate){
+                                          await Vibration.vibrate(duration: 50); // 500毫秒
+
+                                        }
+                                        setState(() {
+                                          isVibrate = _isvibrate;
+                                          SettingConfig.ISVIBRATE = _isvibrate;
+                                        });
+                                                              
+                                  }),
+                                )
+                              ],
+                            ),
+                          )
+
+                        ],
+                      ),
+                    ),
+                  ),
+
+
+                  SizedBox(height: 40.0,),
+                  // ===============================================
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text("Apply for a job!!",style: TextStyle(

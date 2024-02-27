@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qrcode/sqlite/qrcodeGenHistory.dart';
+import 'package:vibration/vibration.dart';
 import './sqlite/qrcodedata.dart';
+import 'components/i_custom_button.dart';
+import 'core/setting.dart';
 import 'models/QrCodeItem.dart';
 
 class ScanHistory extends StatefulWidget {
@@ -81,7 +84,7 @@ class _ScanHistoryState extends State<ScanHistory>
                           style: TextStyle(
                               color: Color(0xFFD9D9D9), fontSize: 24.0),
                         ),
-                        IconButton(
+                        ICustomButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/setting');
                           },
@@ -113,6 +116,12 @@ class _ScanHistoryState extends State<ScanHistory>
                           Radius.circular(10.0)), // 设置所有角的圆角半径为10.0
                     ),
                     child: TabBar(
+                      onTap: (int _index) async {
+                        if(SettingConfig.ISVIBRATE){
+                          await Vibration.vibrate(duration: 50); // 500毫秒
+
+                        }
+                      },
                       dividerColor: Colors.transparent,
                       controller: _tabController,
                       indicatorSize: TabBarIndicatorSize.tab,
@@ -211,7 +220,11 @@ class ScanListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // print(data?.toString());
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        if(SettingConfig.ISVIBRATE){
+          await Vibration.vibrate(duration: 50); // 500毫秒
+
+        }
         Navigator.pushNamed(context, '/detail',arguments: data!.id);
 
       },
@@ -257,7 +270,7 @@ class ScanListItem extends StatelessWidget {
                             Container(
                               height: 24.0,
                               width: 24.0,
-                              child: IconButton(
+                              child: ICustomButton(
                                 onPressed: () {
                                   clickDelete(data!.id);
                                 },
@@ -305,7 +318,11 @@ class GenListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // print(data?.toString());
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        if(SettingConfig.ISVIBRATE){
+          await Vibration.vibrate(duration: 50); // 500毫秒
+
+        }
         Navigator.pushNamed(context, '/detail_gen',arguments: data!.id);
 
       },
@@ -351,7 +368,7 @@ class GenListItem extends StatelessWidget {
                             Container(
                               height: 24.0,
                               width: 24.0,
-                              child: IconButton(
+                              child: ICustomButton(
                                 onPressed: () {
                                   clickDelete(data!.id);
                                 },

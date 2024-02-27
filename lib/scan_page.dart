@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:image_picker/image_picker.dart';
 
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -6,6 +7,7 @@ import './scanner_error_widget.dart';
 import './sqlite/qrcodedata.dart';
 import 'package:intl/intl.dart';
 
+import 'components/i_custom_button.dart';
 import 'models/QrCodeItem.dart';
 
 
@@ -73,7 +75,12 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
 
     int? newId = await QrcodeScanHistory.insertQrcode(example);
     print(newId);
-    Navigator.pushNamed(context, '/detail',arguments: newId);
+    Navigator.pushNamed(context, '/detail',arguments: newId).then((value) => {
+      //NOTE 探测到了的话，这里需要加一下防抖，因为存储和跳转是异步的，
+
+      controller.start()
+
+    });
 
 
   }
@@ -83,8 +90,11 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
     //
     if((barcodeCapture.barcodes.last.displayValue ?? barcode.rawValue) !=null){
 
-      handleSaveData(barcodeCapture.barcodes.last.displayValue ?? barcode.rawValue);
+      //NOTE 探测到了的话，这里需要加一下防抖，因为存储和跳转是异步的，
+      controller.stop();
 
+
+      handleSaveData(barcodeCapture.barcodes.last.displayValue ?? barcode.rawValue);
     }
 
     setState(() {
@@ -180,8 +190,8 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceAround,
                                   children: [
-                                    IconButton(
-                                      color: Colors.white,
+                                    ICustomButton(
+                                      // color: Colors.white,
                                       icon: Image.asset(
                                         color: Color(0xffd9d9d9),
                                         'images/icon-images.png',
@@ -189,7 +199,7 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
                                         height: 25.0, // 设置图片的高度
                                         fit: BoxFit.cover, // 图片填充方式
                                       ),
-                                      iconSize: 32.0,
+                                      // iconSize: 32.0,
                                       onPressed: () async {
                                         final ImagePicker picker =
                                         ImagePicker();
@@ -241,7 +251,7 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
                                           case TorchState.on:
                                             iconColor = Colors.yellow;
                                         }
-                                        return IconButton(
+                                        return ICustomButton(
                                           onPressed: () =>
                                               controller.toggleTorch(),
                                           icon: Image.asset(
@@ -254,7 +264,7 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
                                         );
                                       },
                                     ),
-                                    IconButton(
+                                    ICustomButton(
                                       onPressed: () =>
                                           controller.switchCamera(),
                                       icon: Image.asset(

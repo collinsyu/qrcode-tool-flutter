@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:qrcode/sqlite/init.dart';
-// import 'package:image_picker/image_picker.dart';
-//
-// import 'package:mobile_scanner/mobile_scanner.dart';
-// import './scanner_error_widget.dart';
+
 import './scan_page.dart';
 import './generate_qrcode.dart';
 import './scan_history.dart';
 import "./scan_detail.dart";
 import './setting.dart';
 import './genqrcodeformpage.dart';
+import 'components/i_custom_button.dart';
 import 'gen_detail.dart';
 
 
@@ -159,8 +158,9 @@ class _MainContainerState extends State<MainContainer> {
 
                                     Column(
                                       children: [
-                                        IconButton(
-                                          onPressed: () {_handleSwitchTab(0);},
+                                        ICustomButton(
+                                            onPressed: () {_handleSwitchTab(0);},
+
                                           icon: Image.asset(
                                             'images/icon-qrcode.png',
                                             color: tabIndex == 0? Color(0xffFDB623): Color(0xffd9d9d9),
@@ -170,6 +170,7 @@ class _MainContainerState extends State<MainContainer> {
                                             fit: BoxFit.cover, // 图片填充方式
                                           ),
                                         ),
+
                                         Transform.translate(
                                           offset: Offset(0.0, -8.0), // 在垂直方向上向上移动20.0
                                           child:Text("Generate",
@@ -197,8 +198,10 @@ class _MainContainerState extends State<MainContainer> {
                                   children: [
                                     Column(
                                       children: [
-                                        IconButton(
-                                          onPressed: () {_handleSwitchTab(2);},
+                                        ICustomButton(
+                                          onPressed: () {
+                                            _handleSwitchTab(2);
+                                          },
                                           icon: Image.asset(
                                             'images/icon-history.png',
                                             color: tabIndex == 2? Color(0xffFDB623): Color(0xffd9d9d9),
@@ -206,7 +209,9 @@ class _MainContainerState extends State<MainContainer> {
                                             height: 30.0, // 设置图片的高度
                                             fit: BoxFit.cover, // 图片填充方式
                                           ),
+
                                         ),
+
                                         Transform.translate(
                                           offset: Offset(0.0, -8.0), // 在垂直方向上向上移动20.0
                                           child:Text("History",
@@ -244,10 +249,9 @@ class _MainContainerState extends State<MainContainer> {
                       bottom: 50, // 设置Container的高度为100
                       child: Container(
                         // color: Colors.red,
-                        child: IconButton(
-                          onPressed: (){
+                        child: ICustomButton(
+                          onPressed:() async {
                             _handleSwitchTab(1);
-
                           },
                           icon: Image.asset(
                             'images/scanmainbutton1.png',

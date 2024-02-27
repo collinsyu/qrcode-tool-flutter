@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:qrcode/sqlite/qrcodeGenHistory.dart';
+import 'package:vibration/vibration.dart';
 
 import 'components/dyform.dart';
 import 'components/headbar.dart';
+import 'core/setting.dart';
 import 'models/QrCodeItem.dart';
 
 class GenCodeFormPage extends StatefulWidget {
@@ -175,6 +177,10 @@ class _GenCodeFormPageState extends State<GenCodeFormPage>
                                   onPressed: () async {
                                     print(jsonData);
                                     String value = "";
+                                    if(SettingConfig.ISVIBRATE){
+                                      await Vibration.vibrate(duration: 50); // 500毫秒
+
+                                    }
                                     switch(type){
                                       case "text":
                                         value = jsonData[0]["new_value"];
@@ -184,6 +190,10 @@ class _GenCodeFormPageState extends State<GenCodeFormPage>
                                         value = jsonData[0]["new_value"];
                                       case "wifi":
                                         value = 'WIFI:${jsonData[1]["new_value"]};${jsonData[0]["new_value"]}';
+                                    }
+                                    // 这里不考虑那个 wifi那个哈哈哈哈
+                                    if(value == ''){
+                                      return;
                                     }
 
 

@@ -9,9 +9,12 @@ import 'package:flutter/widgets.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:qrcode/components/i_custom_button.dart';
+import 'package:vibration/vibration.dart';
 import './sqlite/qrcodedata.dart';
 import './tools/saveimage.dart';
 import 'components/headbar.dart';
+import 'core/setting.dart';
 import 'models/QrCodeItem.dart';
 
 class ScanDetail extends StatefulWidget {
@@ -126,6 +129,10 @@ class _ScanDetailState extends State<ScanDetail> with TickerProviderStateMixin {
                               ),
 
                               GestureDetector(onTap: () async {
+                                if(SettingConfig.ISVIBRATE){
+                                  await Vibration.vibrate(duration: 50); // 500毫秒
+
+                                }
                                 // copy data
                                 final textToCopy = codeinfo?.value??'-';
 
@@ -158,7 +165,11 @@ class _ScanDetailState extends State<ScanDetail> with TickerProviderStateMixin {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              TextButton(onPressed: (){
+                              TextButton(onPressed: () async {
+                                if(SettingConfig.ISVIBRATE){
+                                  await Vibration.vibrate(duration: 50); // 500毫秒
+
+                                }
                                 setState(() {
                                   isShowQrcode = !isShowQrcode;
                                 });
@@ -213,7 +224,7 @@ class _ScanDetailState extends State<ScanDetail> with TickerProviderStateMixin {
                   ),
                   Visibility(
                     visible: isShowQrcode,
-                    child: IconButton(onPressed: () async {
+                    child: ICustomButton(onPressed: () async {
                     //   保存图片到本地
                       if (await Permission.storage.request().isGranted) {
                         Uint8List? imgdata = await _getImageData(_repaintKey);
@@ -236,7 +247,16 @@ class _ScanDetailState extends State<ScanDetail> with TickerProviderStateMixin {
                       } else {
                         // 没有存储权限时，弹出没有存储权限的弹窗
                         print("没有获取存储权限");
+
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(
+                            const SnackBar(
+                              content: Text('请在设置中打开读取文件权限'),
+                              backgroundColor: Colors.orange,
+                            )
+                        );
                         await [Permission.storage].request();
+
                       }
 
                       // SaveToAlbumUtil.saveToAlbum(qrImage);

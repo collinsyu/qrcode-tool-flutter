@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'i_custom_button.dart';
+
 class CommonHeadBar extends StatelessWidget {
   const CommonHeadBar({super.key,this.title="title"});
   final String title;
@@ -10,7 +12,7 @@ class CommonHeadBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          IconButton(
+          ICustomButton(
             onPressed: () {
               // Navigator.pop(context,2);
               Navigator.popUntil(context, ModalRoute.withName('/'));

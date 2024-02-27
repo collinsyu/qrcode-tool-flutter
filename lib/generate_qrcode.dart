@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'components/i_custom_button.dart';
+
 class GenerateQrcode extends StatefulWidget {
   const GenerateQrcode({super.key});
 
@@ -55,7 +57,7 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                               color: Color(0xFFD9D9D9),
                               fontSize: 24.0
                           ),),
-                          IconButton(
+                          ICustomButton(
                             onPressed: (){
                               Navigator.pushNamed(context, '/setting');
 
@@ -93,7 +95,7 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                             childAspectRatio:1,
                         ),
                         children: [
-                          IconButton(
+                          ICustomButton(
                             onPressed: (){
                               Navigator.pushNamed(context, '/genform',arguments: "text");
 
@@ -103,7 +105,7 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                               fit: BoxFit.fitHeight, // 图片填充方式
                             ),
                           ),
-                          IconButton(
+                          ICustomButton(
                             onPressed: (){
                               Navigator.pushNamed(context, '/genform',arguments: "url");
 
@@ -113,7 +115,7 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                               fit: BoxFit.fitHeight, // 图片填充方式
                             ),
                           ),
-                          IconButton(
+                          ICustomButton(
                             onPressed: (){
                               Navigator.pushNamed(context, '/genform',arguments: "email");
 
@@ -123,7 +125,7 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                               fit: BoxFit.fitHeight, // 图片填充方式
                             ),
                           ),
-                          IconButton(
+                          ICustomButton(
                             onPressed: (){
                               // Navigator.pushNamed(context, '/genform',arguments: "event");
                               ScaffoldMessenger.of(context)
@@ -139,7 +141,7 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                               fit: BoxFit.fitHeight, // 图片填充方式
                             ),
                           ),
-                          IconButton(
+                          ICustomButton(
                             onPressed: (){
                               Navigator.pushNamed(context, '/genform',arguments: "wifi");
 
