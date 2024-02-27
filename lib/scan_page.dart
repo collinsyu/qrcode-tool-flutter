@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -8,6 +9,7 @@ import './sqlite/qrcodedata.dart';
 import 'package:intl/intl.dart';
 
 import 'components/i_custom_button.dart';
+import 'core/setting.dart';
 import 'models/QrCodeItem.dart';
 
 
@@ -92,7 +94,11 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
 
       //NOTE 探测到了的话，这里需要加一下防抖，因为存储和跳转是异步的，
       controller.stop();
+      if(SettingConfig.ISBEEP){
+        // FlutterBeep.beep(); // 播放一次提示音
+        FlutterBeep.playSysSound(25);
 
+      }
 
       handleSaveData(barcodeCapture.barcodes.last.displayValue ?? barcode.rawValue);
     }

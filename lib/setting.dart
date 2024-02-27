@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:vibration/vibration.dart';
 import '../core/setting.dart';
 import 'components/headbar.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -14,12 +15,16 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> with TickerProviderStateMixin {
   bool isVibrate = true;
+  bool isBeep = true;
 
   @override
   void initState() {
     super.initState();
 
     isVibrate = SettingConfig.ISVIBRATE;
+    isBeep = SettingConfig.ISBEEP;
+
+
   }
 
   @override
@@ -55,6 +60,8 @@ class _SettingPageState extends State<SettingPage> with TickerProviderStateMixin
                         fontSize: 26
                     ),),
                   ),
+
+                  // 是否震动
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 8.0,horizontal: 4.0),
                     decoration: BoxDecoration(
@@ -132,7 +139,85 @@ class _SettingPageState extends State<SettingPage> with TickerProviderStateMixin
                       ),
                     ),
                   ),
+  // 是否扫描beep！！！
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 8.0,horizontal: 4.0),
+                    decoration: BoxDecoration(
+                      color: Color(0xffFDB623),
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xff333333),
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                      padding: EdgeInsets.all(16.0),
+                      margin: EdgeInsets.fromLTRB(0.0,0.0,0.0,2.0),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'images/icon-beep.png',
+                            width: 21.0, // 设置图片的宽度
+                            height: 21.0, // 设置图片的高度
+                            fit: BoxFit.fitHeight, // 图片填充方式
+                          ),
+                          SizedBox(width: 16.0,),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Beep",style: TextStyle(color: Color(0xffE2E2E2),fontSize: 16),),
+                                    Text("Beep when scan is done.",style: TextStyle(
+                                        color: Color(0xffC3C7C7),
+                                        fontSize: 14
+                                    ),)
+                                  ],
+                                ),
 
+
+
+                                Transform.scale(
+                                  scale: .6,
+                                  child: Switch(
+                                      value: isBeep,
+                                      activeTrackColor: Color(0xaaFDB623),
+                                      activeColor: Color(0xffFDB623),
+
+                                      inactiveTrackColor: Color(0x33FFFFFF),
+                                      inactiveThumbColor: Color(0xff979797),
+                                      materialTapTargetSize: MaterialTapTargetSize.padded,
+                                      trackOutlineWidth: MaterialStateProperty.resolveWith<double?>((Set<MaterialState> states) {
+
+                                        return 0; // Use the default width.
+                                      }),
+
+                                      onChanged: (bool _bool) async {
+                                        if(_bool){
+                                          // FlutterBeep.beep(); // 播放一次提示音
+                                          FlutterBeep.playSysSound(25);
+
+                                        }
+                                        setState(() {
+                                          isBeep = _bool;
+                                          SettingConfig.ISBEEP = _bool;
+                                        });
+
+                                      }),
+                                )
+                              ],
+                            ),
+                          )
+
+                        ],
+                      ),
+                    ),
+                  ),
 
                   SizedBox(height: 40.0,),
                   // ===============================================
