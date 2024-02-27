@@ -1,6 +1,6 @@
 # 二维码工具app
 
-![Preview Image](./image/icon.png)
+![Preview Image](/image/icon.png)
 
 
 没广告，没广告，没广告，最烦广告了
@@ -22,10 +22,10 @@ ui使用的是 figma 上面一个开源的ui
 怎么自己写一个二维码识别呢，是不是得看webgl opengl之类的 
 
 
-![Preview Image](./snapshot1.jpg)
-![Preview Image](./snapshot2.jpg)
-![Preview Image](./snapshot3.jpg)
-![Preview Image](./snapshot4.jpg)
+![Preview Image](/snapshot1.jpg)
+![Preview Image](/snapshot2.jpg)
+![Preview Image](/snapshot3.jpg)
+![Preview Image](/snapshot4.jpg)
 
 ## 预备增加的功能
 
