@@ -26,7 +26,7 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
   bool camStarted = false;
 
   final MobileScannerController controller = MobileScannerController(
-    formats: const [BarcodeFormat.qrCode],
+    formats: const [BarcodeFormat.all],
     autoStart: false,
   );
 
@@ -58,8 +58,9 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
       }
     });
   }
-  void handleSaveData(String? s) async {
+  void handleSaveData(String? s,  int? format) async {
     String value = s?? 'null';
+    int _format = format??-1;
     // Create a Dog and add it to the dogs table
 
 
@@ -72,6 +73,7 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
       // id: 0,
       value: value,
       type: "text",
+      format:_format,
       date: formattedDate
     );
 
@@ -99,8 +101,8 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
         FlutterBeep.playSysSound(25);
 
       }
-
-      handleSaveData(barcodeCapture.barcodes.last.displayValue ?? barcode.rawValue);
+      // 增加一个参数，扫描到的码内容
+      handleSaveData(barcodeCapture.barcodes.last.displayValue ?? barcode.rawValue,barcode.format.rawValue);
     }
 
     setState(() {
@@ -163,8 +165,10 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
+                                // 动画
+
                                 Image.asset(
-                                  'images/scan.png',
+                                  'images/scan_blank.png',
                                   width: 240.0, // 设置图片的宽度
                                   height: 240.0, // 设置图片的高度
                                   fit: BoxFit.cover, // 图片填充方式

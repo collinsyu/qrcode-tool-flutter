@@ -20,6 +20,7 @@ class DBHelper  {
           'CREATE TABLE If NOT EXISTS SCAN_QRCODE_HISTORY ('
               'id INTEGER PRIMARY KEY AUTOINCREMENT,'
               'value TEXT,'
+              'format INTEGER,'
               'date TEXT,' // 或者使用 'date DATETIME' 如果你需要日期和时间功能
               'type TEXT'
               ')'
@@ -30,6 +31,7 @@ class DBHelper  {
           'CREATE TABLE If NOT EXISTS GEN_QRCODE_HISTORY ('
               'id INTEGER PRIMARY KEY AUTOINCREMENT,'
               'value TEXT,'
+              'format INTEGER,'
               'date TEXT,' // 或者使用 'date DATETIME' 如果你需要日期和时间功能
               'type TEXT'
               ')'

@@ -4,11 +4,13 @@ class QrCodeItem {
   final String value;
   final String date;
   final String type;
+  final int? format;
 
   QrCodeItem({
     this.id,
     required this.value,
     required this.date,
+     this.format,
     required this.type,
   });
 
@@ -20,6 +22,7 @@ class QrCodeItem {
       'value': value,
       'type': type,
       'date': date,
+      'format': format
     };
   }
 
@@ -27,6 +30,6 @@ class QrCodeItem {
   // each dog when using the print statement.
   @override
   String toString() {
-    return 'QrCodeItem{id: $id, value: $value, type: $type, date: $date}';
+    return 'QrCodeItem{id: $id, value: $value, type: $type, date: $date, format: $format}';
   }
 }

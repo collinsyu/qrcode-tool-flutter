@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'components/i_custom_button.dart';
+import 'components/mainheadbar.dart';
 
 class GenerateQrcode extends StatefulWidget {
   const GenerateQrcode({super.key});
@@ -48,44 +49,28 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
 
                 Padding(padding:EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 0),child: Column(
                   children: [
+                    MainCommonHeadBar(title:"Generate"),
+                  //   grid
                     Container(
-                      padding: EdgeInsets.only(top: 0),
+                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 16.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("Generate QR",style: TextStyle(
-                              color: Color(0xFFD9D9D9),
-                              fontSize: 24.0
-                          ),),
-                          ICustomButton(
-                            onPressed: (){
-                              Navigator.pushNamed(context, '/setting');
+                          Text("Qrcode",style: TextStyle(
+                            color: Color(0xffFDB623),
+                              fontSize: 20.0
 
-                            },
-                            icon: Container(
-                              decoration: BoxDecoration(
-                                color:  Color(0xcc333333),
-
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)), // 设置所有角的圆角半径为10.0
-                              ),
-                              padding: const EdgeInsets.all(8.0),
-
-                              child: Image.asset('images/icon-setting-inner.png',
-                                width: 24.0, // 设置图片的宽度
-                                height: 24.0, // 设置图片的高度
-                                fit: BoxFit.cover, // 图片填充方式
-                              ),
-                            ),
-                          )
-
+                          ),)
                         ],
                       ),
                     ),
-
-                  //   grid
-
                     Container(
-                      height: 300,
+                      padding: EdgeInsets.symmetric(vertical: 0.0,horizontal: 16.0),
+                      height: 2.0,
+                      color:Color(0xffFDB623),
+                    ),
+                    Container(
+                      height: 260,
                       child: GridView(
                         padding: EdgeInsets.symmetric(vertical: 32.0,horizontal: 16.0),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -97,7 +82,9 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                         children: [
                           ICustomButton(
                             onPressed: (){
-                              Navigator.pushNamed(context, '/genform',arguments: "text");
+                              Navigator.pushNamed(context, '/genform',arguments: {
+                                'type':"text"
+                              });
 
                             },
                             padding: EdgeInsets.all(0.0),
@@ -107,7 +94,9 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                           ),
                           ICustomButton(
                             onPressed: (){
-                              Navigator.pushNamed(context, '/genform',arguments: "url");
+                              Navigator.pushNamed(context, '/genform',arguments: {
+                                'type':"url"
+                              });
 
                             },
                             padding: EdgeInsets.all(0.0),
@@ -117,7 +106,9 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                           ),
                           ICustomButton(
                             onPressed: (){
-                              Navigator.pushNamed(context, '/genform',arguments: "email");
+                              Navigator.pushNamed(context, '/genform',arguments: {
+                                'type':"email"
+                              });
 
                             },
                             padding: EdgeInsets.all(0.0),
@@ -143,7 +134,9 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                           ),
                           ICustomButton(
                             onPressed: (){
-                              Navigator.pushNamed(context, '/genform',arguments: "wifi");
+                              Navigator.pushNamed(context, '/genform',arguments: {
+                                'type':"wifi"
+                              });
 
                             },
                             padding: EdgeInsets.all(0.0),
@@ -153,6 +146,50 @@ class _GenerateQrcodeState extends State<GenerateQrcode> with SingleTickerProvid
                           ),
 
 
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("BarCode",style: TextStyle(
+                              color: Color(0xffFDB623),
+                              fontSize: 20.0
+
+                          ),)
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 0.0,horizontal: 16.0),
+                      height: 2.0,
+                      color:Color(0xffFDB623),
+                    ),
+                    Container(
+                      height: 300,
+                      child: GridView(
+                        padding: EdgeInsets.symmetric(vertical: 32.0,horizontal: 16.0),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing:40,
+                          crossAxisSpacing:40,
+                          childAspectRatio:1,
+                        ),
+                        children: [
+                          ICustomButton(
+                            onPressed: (){
+                              Navigator.pushNamed(context, '/genform',arguments:{
+                                'type': "text",'format':1
+                              });
+
+                            },
+                            padding: EdgeInsets.all(0.0),
+                            icon:  Image.asset('images/icon-scantype-text.png',
+                              fit: BoxFit.fitHeight, // 图片填充方式
+                            ),
+                          ),
                         ],
                       ),
                     )

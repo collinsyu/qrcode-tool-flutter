@@ -106,9 +106,10 @@ class QrcodeScanHistory  {
       'id': id as int,
       'value': value as String,
       'type': type as String,
+      'format': format as int,
       'date': date as String,
       } in dogMaps)
-        QrCodeItem(id: id, value: value, type: type, date: date),
+        QrCodeItem(id: id, value: value, type: type, date: date,format:format),
     ];
   }
 
@@ -124,6 +125,7 @@ class QrcodeScanHistory  {
     final Map<String, dynamic> firstResult = result.first;
     return QrCodeItem(
       id: firstResult['id'] as int,
+      format: firstResult['format'] as int,
       value: firstResult['value'] as String,
       type: firstResult['type'] as String,
       date: firstResult['date'] as String,

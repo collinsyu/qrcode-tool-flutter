@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 import 'dart:ui';
 
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -98,7 +99,12 @@ class _ScanDetailState extends State<ScanDetail> with TickerProviderStateMixin {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(0, 0, 16.0, 0),
-                                child: Image.asset(
+                                child:  codeinfo?.format == 1?Image.asset(
+                                  'images/list-cormat-barcode.png',
+                                  width: 49.0, // 设置图片的宽度
+                                  height: 49.0, // 设置图片的高度
+                                  fit: BoxFit.cover, // 图片填充方式
+                                ):Image.asset(
                                   'images/list-type-text.png',
                                   width: 49.0, // 设置图片的宽度
                                   height: 49.0, // 设置图片的高度
@@ -177,7 +183,7 @@ class _ScanDetailState extends State<ScanDetail> with TickerProviderStateMixin {
                                   style: ButtonStyle(
 
                                   ),
-                                  child: Text(!isShowQrcode?"Show QR Code":"Hide QR Code",style: TextStyle(
+                                  child: Text(!isShowQrcode?"Show Bar Code":"Hide Bar Code",style: TextStyle(
                                   color: Color(0xffFDB623),
                                   fontSize: 15
                               ),)),
@@ -206,19 +212,24 @@ class _ScanDetailState extends State<ScanDetail> with TickerProviderStateMixin {
                           color: Color(0xffD9D9D9),
 
                         ),
-                        child: PrettyQrView(
-                          qrImage:QrImage(QrCode.fromData(
-                            data: codeinfo!.value,
-                            errorCorrectLevel: QrErrorCorrectLevel.H,
-                          )),
-                          decoration: const PrettyQrDecoration(
-                            shape: PrettyQrSmoothSymbol(
-                              color: Color(0xff000000),
-                                roundFactor:0
-                            ),
+                        child: codeinfo?.format == 1?BarcodeWidget(
+                          barcode: Barcode.code128(), // Barcode type and settings
+                          data: codeinfo!.value, // Content
+                          width: 200,
+                          height: 200,
+                        ):PrettyQrView(
+                      qrImage:QrImage(QrCode.fromData(
+                        data: codeinfo!.value,
+                        errorCorrectLevel: QrErrorCorrectLevel.H,
+                      )),
+                    decoration: const PrettyQrDecoration(
+                      shape: PrettyQrSmoothSymbol(
+                          color: Color(0xff000000),
+                          roundFactor:0
+                      ),
 
-                          ),
-                        ),
+                    ),
+                  ),
                       ),
                     ),
                   ),

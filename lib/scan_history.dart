@@ -4,6 +4,7 @@ import 'package:qrcode/sqlite/qrcodeGenHistory.dart';
 import 'package:vibration/vibration.dart';
 import './sqlite/qrcodedata.dart';
 import 'components/i_custom_button.dart';
+import 'components/mainheadbar.dart';
 import 'core/setting.dart';
 import 'models/QrCodeItem.dart';
 
@@ -74,39 +75,8 @@ class _ScanHistoryState extends State<ScanHistory>
               padding: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 0),
               child: Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.only(top: 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "History",
-                          style: TextStyle(
-                              color: Color(0xFFD9D9D9), fontSize: 24.0),
-                        ),
-                        ICustomButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/setting');
-                          },
-                          icon: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xcc333333),
+                  MainCommonHeadBar(title:"History"),
 
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0)), // 设置所有角的圆角半径为10.0
-                            ),
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              'images/icon-setting-inner.png',
-                              width: 24.0, // 设置图片的宽度
-                              height: 24.0, // 设置图片的高度
-                              fit: BoxFit.cover, // 图片填充方式
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   //   grid
                   Container(
                     padding: EdgeInsets.all(8.0),
@@ -242,13 +212,23 @@ class ScanListItem extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 16.0, 0),
-                child: Image.asset(
+                child: data?.format == 1?Image.asset(
+                  'images/list-cormat-barcode.png',
+                  width: 33.0, // 设置图片的宽度
+                  height: 33.0, // 设置图片的高度
+                  fit: BoxFit.cover, // 图片填充方式
+                ):Image.asset(
                   'images/list-type-text.png',
                   width: 33.0, // 设置图片的宽度
                   height: 33.0, // 设置图片的高度
                   fit: BoxFit.cover, // 图片填充方式
                 ),
               ),
+              // Padding(
+              //   padding: EdgeInsets.fromLTRB(0, 0, 16.0, 0),
+              //   child: ,
+              // ),
+
               Expanded(
                   child: Container(
                     // color: Colors.red,
@@ -340,7 +320,12 @@ class GenListItem extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 16.0, 0),
-                child: Image.asset(
+                child: data?.format == 1?Image.asset(
+                  'images/list-cormat-barcode.png',
+                  width: 33.0, // 设置图片的宽度
+                  height: 33.0, // 设置图片的高度
+                  fit: BoxFit.cover, // 图片填充方式
+                ):Image.asset(
                   'images/list-type-text.png',
                   width: 33.0, // 设置图片的宽度
                   height: 33.0, // 设置图片的高度

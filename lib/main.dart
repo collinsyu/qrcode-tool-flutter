@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrcode/pages/welcome.dart';
 
 import 'package:qrcode/sqlite/init.dart';
 
@@ -19,7 +20,7 @@ final routes = {
   '/detail': (context, {arguments}) => ScanDetail(id: arguments),
   '/detail_gen': (context, {arguments}) => GenDetail(id: arguments),
   '/setting': (context, {arguments}) =>  SettingPage(),
-  '/genform': (context, {arguments}) =>  GenCodeFormPage(type:arguments),
+  '/genform': (context, {arguments}) =>  GenCodeFormPage(type:arguments['type'],  format:arguments['format']  ),
   '/': (context, {arguments}) => MyHome(),
 };
 
@@ -84,14 +85,18 @@ class MainContainer extends StatefulWidget {
 }
 
 class _MainContainerState extends State<MainContainer> {
-  int tabIndex = 1;
+  int tabIndex = -1;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabIndex = 1;
+    tabIndex = -1;
     _initDatabase();
+
+    // 如果是首次登陆，那么就要显示-1
+    tabIndex = 1;
+
 
   }
   void _handleSwitchTab(int s){
@@ -110,160 +115,175 @@ class _MainContainerState extends State<MainContainer> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Visibility(
-                    visible: tabIndex == 0,
-                    maintainState: true,
-                    child: GenerateQrcode(),
+
+
+            Visibility(
+                visible: tabIndex == -1 ,
+                child: Expanded(
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Welcome()
+                    ],
                   ),
-                  Visibility(
-                    visible: tabIndex == 1,
-                    child: BarcodeScannerWithOverlay() ,
-                  ),
+                )),
+            Visibility(
+              visible: tabIndex == 0 || tabIndex == 1 || tabIndex == 2 ,
+              child: Expanded(
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Visibility(
+                      visible: tabIndex == 0,
+                      maintainState: true,
+                      child: GenerateQrcode(),
+                    ),
+                    Visibility(
+                      visible: tabIndex == 1,
+                      child: BarcodeScannerWithOverlay() ,
+                    ),
 
-                  Visibility(
-                    visible: tabIndex == 2,
-                    maintainState: false,
-                    child: ScanHistory(),
-                  ),
+                    Visibility(
+                      visible: tabIndex == 2,
+                      maintainState: false,
+                      child: ScanHistory(),
+                    ),
 
-                  // widgets[tabIndex],
+                    // widgets[tabIndex],
 
-                  // 底部menu
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0, // 设置Container的高度为100
-                    height: 136,
-                    child:  Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 32.0,horizontal: 48.0),
-                        child: Container(
+                    // 底部menu
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0, // 设置Container的高度为100
+                      height: 136,
+                      child:  Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 32.0,horizontal: 48.0),
+                          child: Container(
 
-                          decoration: BoxDecoration(
-                            color:  Color(0xcc333333),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)), // 设置所有角的圆角半径为10.0
-                          ),
-                          // height: 100.0,
-                          child: Align(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            decoration: BoxDecoration(
+                              color:  Color(0xcc333333),
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)), // 设置所有角的圆角半径为10.0
+                            ),
+                            // height: 100.0,
+                            child: Align(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-                                  children: [
+                                    children: [
 
-                                    Column(
-                                      children: [
-                                        ICustomButton(
-                                            onPressed: () {_handleSwitchTab(0);},
+                                      Column(
+                                        children: [
+                                          ICustomButton(
+                                              onPressed: () {_handleSwitchTab(0);},
 
-                                          icon: Image.asset(
-                                            'images/icon-qrcode.png',
-                                            color: tabIndex == 0? Color(0xffFDB623): Color(0xffd9d9d9),
-
-                                            width: 30.0, // 设置图片的宽度
-                                            height: 30.0, // 设置图片的高度
-                                            fit: BoxFit.cover, // 图片填充方式
-                                          ),
-                                        ),
-
-                                        Transform.translate(
-                                          offset: Offset(0.0, -8.0), // 在垂直方向上向上移动20.0
-                                          child:Text("Generate",
-                                            style: TextStyle(
+                                            icon: Image.asset(
+                                              'images/icon-qrcode.png',
                                               color: tabIndex == 0? Color(0xffFDB623): Color(0xffd9d9d9),
-                                            ),),
-                                        ),
-                                      ],
-                                    ),
-                                    Visibility(
-                                      visible: tabIndex ==0,
-                                      child: Container(
-                                      color: Color(0xffFDB623),
-                                      width: 48.0,
-                                      height: 4.0,
-                                    ))
 
-                                  ],
-                                ),
-                                SizedBox.shrink(),
-
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                                  children: [
-                                    Column(
-                                      children: [
-                                        ICustomButton(
-                                          onPressed: () {
-                                            _handleSwitchTab(2);
-                                          },
-                                          icon: Image.asset(
-                                            'images/icon-history.png',
-                                            color: tabIndex == 2? Color(0xffFDB623): Color(0xffd9d9d9),
-                                            width: 30.0, // 设置图片的宽度
-                                            height: 30.0, // 设置图片的高度
-                                            fit: BoxFit.cover, // 图片填充方式
+                                              width: 30.0, // 设置图片的宽度
+                                              height: 30.0, // 设置图片的高度
+                                              fit: BoxFit.cover, // 图片填充方式
+                                            ),
                                           ),
 
-                                        ),
-
-                                        Transform.translate(
-                                          offset: Offset(0.0, -8.0), // 在垂直方向上向上移动20.0
-                                          child:Text("History",
-                                            style: TextStyle(
-                                              color: tabIndex == 2? Color(0xffFDB623): Color(0xffd9d9d9),
-                                            ),),
-                                        ),
-                                      ],
-                                    ),
-                                    Visibility(
-                                        visible: tabIndex ==2,
+                                          Transform.translate(
+                                            offset: Offset(0.0, -8.0), // 在垂直方向上向上移动20.0
+                                            child:Text("Generate",
+                                              style: TextStyle(
+                                                color: tabIndex == 0? Color(0xffFDB623): Color(0xffd9d9d9),
+                                              ),),
+                                          ),
+                                        ],
+                                      ),
+                                      Visibility(
+                                        visible: tabIndex ==0,
                                         child: Container(
-                                          color: Color(0xffFDB623),
-                                          width: 48.0,
-                                          height: 4.0,
-                                        ))
+                                        color: Color(0xffFDB623),
+                                        width: 48.0,
+                                        height: 4.0,
+                                      ))
 
-                                  ],
-                                ),
+                                    ],
+                                  ),
+                                  SizedBox.shrink(),
+
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                                    children: [
+                                      Column(
+                                        children: [
+                                          ICustomButton(
+                                            onPressed: () {
+                                              _handleSwitchTab(2);
+                                            },
+                                            icon: Image.asset(
+                                              'images/icon-history.png',
+                                              color: tabIndex == 2? Color(0xffFDB623): Color(0xffd9d9d9),
+                                              width: 30.0, // 设置图片的宽度
+                                              height: 30.0, // 设置图片的高度
+                                              fit: BoxFit.cover, // 图片填充方式
+                                            ),
+
+                                          ),
+
+                                          Transform.translate(
+                                            offset: Offset(0.0, -8.0), // 在垂直方向上向上移动20.0
+                                            child:Text("History",
+                                              style: TextStyle(
+                                                color: tabIndex == 2? Color(0xffFDB623): Color(0xffd9d9d9),
+                                              ),),
+                                          ),
+                                        ],
+                                      ),
+                                      Visibility(
+                                          visible: tabIndex ==2,
+                                          child: Container(
+                                            color: Color(0xffFDB623),
+                                            width: 48.0,
+                                            height: 4.0,
+                                          ))
+
+                                    ],
+                                  ),
 
 
-                              ],
+                                ],
+                              ),
+                            ),
+
+                          )
+
+                      ),
+                    ),
+                    // 富浮动的最大扫描按钮
+                    Positioned(
+                        top: 640,
+                        left: 150,
+                        right: 150,
+                        bottom: 50, // 设置Container的高度为100
+                        child: Container(
+                          // color: Colors.red,
+                          child: ICustomButton(
+                            onPressed:() async {
+                              _handleSwitchTab(1);
+                            },
+                            icon: Image.asset(
+                              'images/scanmainbutton1.png',
+                              fit: BoxFit.cover, // 图片填充方式
                             ),
                           ),
 
                         )
 
                     ),
-                  ),
-                  // 富浮动的最大扫描按钮
-                  Positioned(
-                      top: 640,
-                      left: 150,
-                      right: 150,
-                      bottom: 50, // 设置Container的高度为100
-                      child: Container(
-                        // color: Colors.red,
-                        child: ICustomButton(
-                          onPressed:() async {
-                            _handleSwitchTab(1);
-                          },
-                          icon: Image.asset(
-                            'images/scanmainbutton1.png',
-                            fit: BoxFit.cover, // 图片填充方式
-                          ),
-                        ),
 
-                      )
-
-                  ),
-
-                ],
+                  ],
+                ),
               ),
             ),
           ],

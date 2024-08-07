@@ -14,7 +14,8 @@ import 'models/QrCodeItem.dart';
 
 class GenCodeFormPage extends StatefulWidget {
   final String type;
-  GenCodeFormPage({super.key, required this.type});
+  final int? format;
+  GenCodeFormPage({super.key, required this.type,this.format});
 
   @override
   State<GenCodeFormPage> createState() => _GenCodeFormPageState();
@@ -23,6 +24,7 @@ class GenCodeFormPage extends StatefulWidget {
 class _GenCodeFormPageState extends State<GenCodeFormPage>
     with TickerProviderStateMixin {
   late String type = "text";
+  late int format = 256;
   final Map _map = {
     'text': 'Text',
     'url': 'Website',
@@ -34,6 +36,7 @@ class _GenCodeFormPageState extends State<GenCodeFormPage>
   void initState() {
     super.initState();
     type = widget.type;
+    format = (widget.format??256) as int;
     switch(type){
       case "text":
         jsonData = [
@@ -173,6 +176,7 @@ class _GenCodeFormPageState extends State<GenCodeFormPage>
                                 SizedBox(
                                   height: 32.0,
                                 ),
+                                Text(format.toString()),
                                 CupertinoButton(
                                   onPressed: () async {
                                     print(jsonData);
@@ -208,6 +212,7 @@ class _GenCodeFormPageState extends State<GenCodeFormPage>
                                       // id: 0,
                                         value: value,
                                         type: "text",
+                                        format:format,
                                         date: formattedDate
                                     );
                                     print(example);
