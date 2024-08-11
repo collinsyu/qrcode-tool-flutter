@@ -50,6 +50,7 @@ dependencies:
   flutter_beep: ^1.0.0
   barcode: ^2.2.8
   barcode_widget: ^2.0.4
+  sentry_flutter: ^8.7.0
 
 
 dev_dependencies:

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBHelper  {
@@ -38,8 +39,12 @@ class DBHelper  {
       );
 
       print('Tables created successfully.');
-    } catch (e) {
-      print('An error occurred: $e');
+    } catch (exception,stackTrace) {
+      print('An error occurred: $exception');
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
     }
   }
 

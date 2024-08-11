@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qrcode/pages/welcome.dart';
 
 import 'package:qrcode/sqlite/init.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import './scan_page.dart';
 import './generate_qrcode.dart';
@@ -43,19 +44,43 @@ var onGenerateRoute = (RouteSettings settings) {
   }
   return null;
 };
+Future<void> main() async {
+  await SentryFlutter.init(
+        (options) {
+      options.dsn = 'https://4fe31e3bb9b599b8d6dc2269d2f30a00@o1065670.ingest.us.sentry.io/4507758089797632';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+      // The sampling rate for profiling is relative to tracesSampleRate
+      // Setting to 1.0 will profile 100% of sampled transactions:
+      options.profilesSampleRate = 1.0;
+    },
+    appRunner: () => runApp( MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: onGenerateRoute,
+        initialRoute: '/',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          useMaterial3: true,
+        ),
+        home: MyHome()
+    )),
+  );
 
-void main() => runApp( MaterialApp(
-    debugShowCheckedModeBanner: false,
-    onGenerateRoute: onGenerateRoute,
-    initialRoute: '/',
-    theme: ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-      useMaterial3: true,
-    ),
-    home: MyHome()
-  )
-
-);
+  // or define SENTRY_DSN via Dart environment variable (--dart-define)
+}
+// void main() => runApp( MaterialApp(
+//     debugShowCheckedModeBanner: false,
+//     onGenerateRoute: onGenerateRoute,
+//     initialRoute: '/',
+//     theme: ThemeData(
+//       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+//       useMaterial3: true,
+//     ),
+//     home: MyHome()
+//   )
+//
+// );
 
 
 
@@ -296,8 +321,12 @@ class _MainContainerState extends State<MainContainer> {
     try {
       final db = await DBHelper.database;
       print("Database initialized");
-    } catch (e) {
-      print("Database error: $e");
+    } catch (exception,stackTrace) {
+      print("Database error: $exception");
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
     }
   }
 }
